@@ -17,4 +17,8 @@ public class MemberRepository {
     public Member find(Long id) {
         return em.find(Member.class,id);
     }
+
+    public void practice() {
+        System.out.println("git practice");
+    }
 }
