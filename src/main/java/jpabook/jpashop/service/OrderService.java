@@ -1,13 +1,17 @@
 package jpabook.jpashop.service;
 
+import jakarta.persistence.EntityManager;
 import jpabook.jpashop.domain.*;
 import jpabook.jpashop.domain.item.Item;
 import jpabook.jpashop.repository.ItemRepository;
 import jpabook.jpashop.repository.MemberRepository;
 import jpabook.jpashop.repository.OrderRepository;
+import jpabook.jpashop.repository.OrderSearch;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Service
 @Transactional(readOnly = true)
@@ -17,6 +21,7 @@ public class OrderService {
     private final MemberRepository memberRepository;
     private final OrderRepository orderRepository;
     private final ItemRepository itemRepository;
+    private final EntityManager em;
     /*주문 생성*/
     public Long order(Long memberId, Long itemId, int count) {
         //엔티티 조회
@@ -44,4 +49,9 @@ public class OrderService {
         Order order = orderRepository.findOne(orderId);
         order.cancel();
     }
+
+    public List<Order> findOrders(OrderSearch orderSearch) {
+        return orderRepository.findAllByString(orderSearch);
+    }
 }
+
