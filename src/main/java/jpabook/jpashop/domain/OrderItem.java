@@ -8,13 +8,12 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Table(name = "order_item")
 @Getter@Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class OrderItem {
 
     @Id@GeneratedValue
-    @Column(name = "orderItem_id")
+    @Column(name = "order_Item_id")
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
