@@ -64,6 +64,23 @@ public class OrderApiController {
         return result;
     }
 
+    /**
+     * V3.1 엔티티를 조회해서 DTO로 변환 페이징 고려
+     * ToOne 관계만 우선 페치 조인으로 최적화
+     * 컬렉션 관계는 hibernate.default_batch_fetch_size, @BatchSize로 최적화
+     */
+    @GetMapping("/api/v3.1/orders")
+    public List<OrderDto> ordersV3_page(
+            @RequestParam(value = "offet",defaultValue = "0") int offset,
+            @RequestParam(value = "limit",defaultValue = "100") int limit
+    )
+    {
+        List<Order> all = orderRepository.findAllWithMemberDelivery(offset,limit);
+        List<OrderDto> result = all.stream().map(o -> new OrderDto(o)).collect(Collectors.toList());
+        return result;
+    }
+
+
     @Getter
     static class OrderDto {
         private Long orderId;
